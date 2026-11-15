@@ -13,7 +13,7 @@ st.markdown("""
     }
     /* Big FarmMarket Logo */
     .big-logo {
-        font-size: 68px !important;
+    font-size: clamp(28px, 8vw, 50px) !important;
         font-weight: 900;
         text-align: center;
         color: #1A7F37;
@@ -82,19 +82,17 @@ inputs = [
 ]
 
 if menu == "🏠 Home":
-    st.write("Welcome! Buy farm inputs cheap, and sell your harvest direct to buyers. No middleman.")
-    st.image("https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1000", caption="Fresh from Nigerian Farms")
-    st.subheader("🔥 Latest Produce For Sale")
-    df = pd.read_csv(FILE)
-    if len(df) == 0:
-        st.info("No produce posted yet. Be the first to post!")
-    else:
-        for i, row in df.tail(3).iterrows():
+        st.markdown("<p style='text-align: center;'>Welcome! Buy farm inputs cheap, and sell your harvest direct to buyers. No middleman.</p>", unsafe_allow_html=True)
+        st.subheader("🔥 Latest Produce For Sale")
+        df = pd.read_csv(FILE)
+        if len(df) == 0:
+            st.info("No produce posted yet. Be the first to post!")
+        else:
+          for i, row in df.tail(3).iterrows():
             st.write(f"**{row['Crop']}** - {row['Qty']} | ₦{row['Price']:,} | {row['Location']} | Seller: {row['Name']}")
             wa_link = f"https://wa.me/{row['Phone']}?text=" + urllib.parse.quote(f"Hello {row['Name']}, I want to buy your {row['Crop']}")
             st.markdown(f"[💬 Chat Seller on WhatsApp]({wa_link})")
             st.divider()
-
 elif menu == "🛒 Buy Farm Inputs":
     st.header("Buy Farm Inputs")
     search = st.text_input("Search inputs e.g. fertilizer, seeds")
